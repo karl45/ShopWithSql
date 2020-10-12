@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Manage Users</h1>
+
+<div id="form">
+    <form class="form-inline" asp-antiforgery="true">
+        <div class="form-group mb-2">
+            <label for="UserName" class="sr-only">Email</label><br />
+            <input name="UserName" class="form-control" placeholder="Email" v-model="Email" />
+        </div>
+        <div class="form-group mb-2">
+            <label for="Password" class="sr-only">Password</label><br />
+            <input name="Password" class="form-control" type="password" placeholder="Password" v-model="Password" />
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="RoleName" class="sr-only">RoleName</label>
+            <select name="Roles" class="form-control" v-model="RoleName" asp-items="ViewBag.Roles">
+            </select>
+        </div>
+        <button class="btn btn-outline-primary mb-2" type="button" v-on:click="AddUser">
+            <span v-if="visible" class="spinner-border spinner-border-sm" role="status" aria-hidden="true">
+            </span>
+            Добавить пользователя
+        </button>
+    </form>
+    <ul class="list-group" style="list-style-type:none">
+        <li list-group-item d-flex justify-content-between align-items-center v-for="item in errors">
+            <span class="badge badge-danger badge-pill">{{item.code}}</span>
+            {{item.error}}
+        </li>
+    </ul>
+    <form>
+            <div class="form-row">
+                <div class="col">
+                    <label for="EmailSearch" class="sr-only">EmailSearch:</label><br />
+                    <input name="EmailSearch" class="form-control border-top-0 border-left-0 border-right-0" v-model="EmailSearch" placeholder="Type to search EmailSearch" v-on:keyup="SearchUser" />
+                </div>
+            </div>
+        </form>
+
+    <table id="table"
+           data-toggle="table"
+           data-height="380"
+           data-pagination="true"
+           data-page-size="5"
+           data-undefined-text='NULL'
+           data-ajax="ajaxRequest">
+        <thead>
+            <tr>
+                <th data-field="email" data-width="200">
+                    Email
+                </th>
+                <th data-field="roleName" data-width="200">
+                    RoleName
+                </th>
+
+            </tr>
+        </thead>
+    </table>
+</div>
+<script src="~/js/LoadUsers.js"></script>

@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div id="form">
+    <form class="form-inline" asp-antiforgery="true">
+        <div class="form-group mb-2">
+            <label for="GoodName" class="sr-only">GoodName</label><br />
+            <input name="GoodName" class="form-control" placeholder="Your Good" v-model="GoodName" />
+        </div>
+        <div class="form-group mb-2">
+            <label for="BrandName" class="sr-only">BrandName</label><br />
+            <input name="BrandName" class="form-control" placeholder="Your Brand" v-model="BrandName" />
+        </div>
+        @if (User.IsInRole("Manager"))
+        {
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="UserAccountName" class="sr-only">UserAccountId</label>
+                <select name="UserAccountName" class="form-control" v-model="UserAccountId" asp-items="ViewBag.UserAccountId">
+                </select>
+            </div>
+        }
+
+        <button class="btn btn-outline-primary mb-2" type="button" v-on:click="AddGood">
+            <span v-if="visible" class="spinner-border spinner-border-sm" role="status" aria-hidden="true">
+            </span>
+            Добавить товар
+        </button>
+    </form>
+    <form>
+        <div class="form-row">
+            <div class="col">
+                <label for="GoodNameSearch" class="sr-only">GoodNameSearch:</label><br />
+                <input name="GoodNameSearch" class="form-control border-0" v-model="GoodNameSearch" placeholder="Type to search GoodName" v-on:keyup="SearchGood" />
+            </div>
+            <div class="col">
+                <label for="BrandNameSearch" class="sr-only">BrandNameSearch:</label><br />
+                <input name="BrandNameSearch" class="form-control border-0" v-model="BrandNameSearch" placeholder="Type to search BrandName" v-on:keyup="SearchGood" />
+            </div>
+            @if (User.IsInRole("Manager"))
+            {
+            <div class="col">
+                <label for="UserNameSearch" class="sr-only">UserNameSearch:</label><br />
+                <input name="UserNameSearch" class="form-control border-0" v-model="UserNameSearch" placeholder="Type to search UserName" v-on:keyup="SearchGood" />
+            </div>
+            }
+        </div>
+    </form>
+        <table id="table"
+               data-toggle="table"
+               data-height="380"
+               data-pagination="true"
+               data-page-size="5"
+               data-undefined-text='NULL'
+               data-ajax="ajaxRequest">
+            <thead>
+                <tr>
+                    <th data-field="goodName" data-width="200">
+                        GoodName
+                    </th>
+                    <th data-field="brandName" data-width="200">
+                        brandName
+                    </th>
+                    @if (User.IsInRole("Manager"))
+                    {
+                        <th data-field="userName" data-width="200">
+                            UserName
+                        </th>
+                    }
+                </tr>
+            </thead>
+        </table>
+</div>
+<script src="~/js/LoadTable.js"></script>
+    
